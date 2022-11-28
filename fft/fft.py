@@ -21,7 +21,6 @@ def radial_profile(data):
 
 if __name__ == "__main__":
     img = cv2.imread('test4.png',cv2.IMREAD_GRAYSCALE)
-    #print(img)
 
 
     # Create the FFT of img
@@ -40,17 +39,19 @@ if __name__ == "__main__":
 
     peaks, props = scipy.signal.find_peaks(rad_prof, width=4)
     print(peaks)
+    
     X = range(rad_prof.shape[0])
     popt, pcov = opt.curve_fit(lorentzian, X, rad_prof, [peaks[0], 1, 1])
 
     ax[0,0].imshow(img, cmap='gray')
     ax[0,1].imshow(magnitude_spectrum, cmap='gray')
-    print(np.max(rad_prof))
+    
     ax[1,0].plot(X, rad_prof)
     ax[1,0].scatter(peaks, rad_prof[peaks], c='r', marker='x', zorder=3)
     x_param = np.linspace(0,len(X), 100)
     ax[1,0].plot(x_param, lorentzian(x_param, popt[0], popt[1], popt[2]), c='g')
 
-    ax[1,1].plot(X, np.gradient(rad_prof))
+    rev_im = np.fft.ifft2(freq_space)
+    ax[1,1].imshow(np.abs(rev_im), cmap='gray')
 
     plt.show()
