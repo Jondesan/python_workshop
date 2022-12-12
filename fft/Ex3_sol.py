@@ -31,7 +31,7 @@ amplitudes = np.abs(frequencies)
 fig = plt.figure()
 ax1 = plt.subplot(211)
 ax2 = plt.subplot(212)
-ax1.plot(1/f_oneside, amplitudes[:N//2]/max(amplitudes[:N//2]))
+ax1.stem(1/f_oneside, amplitudes[:N//2]/max(amplitudes[:N//2]))
 ax2.plot(temperatures)
 
 # Add labels to the plot
